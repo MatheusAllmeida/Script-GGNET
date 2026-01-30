@@ -34,7 +34,7 @@ Script Tampermonkeu para limpeza automatica de dispositivos desconectados no Hua
 
 👉 **Instalação:**  
 
-- [📥 Instalar Call Trace Helper](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/call-trace-helper.user.js)
+- [📥 Instalar Call Trace Helper](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/SBC/call-trace-helper.user.js)
 - [📥 Instalar Huawei Clear Offline](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/Huawei/clear-huawei.user.js)
 
 ---
