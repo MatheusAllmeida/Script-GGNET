@@ -32,6 +32,9 @@ Script Tampermonkeu para limpeza automatica de dispositivos desconectados no Hua
 **Funções:**
 - Limpeza automatica dispositivos desconectado
 
+### 🔹 MAC VENDORS
+Script Tampermonkeu para capturar MAC de aparelhos e substituir pelo nome do aparelho
+
 👉 **Instalação:**  
 
 - [📥 Instalar Call Trace Helper](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/SBC/call-trace-helper.user.js)
