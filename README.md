@@ -26,8 +26,16 @@ Script Tampermonkey para extração automática de dados de chamadas SIP na pág
 - Código de resposta SIP
 - Data e hora no formato brasileiro
 
+### 🔹 Huawei Clear Offline
+Script Tampermonkeu para limpeza automatica de dispositivos desconectados no Huawei
+
+**Funções:**
+- Limpeza automatica dispositivos desconectado
+
 👉 **Instalação:**  
-[Instalar Call Trace Helper]([https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/call-trace-helper.user.js](https://github.com/MatheusAllmeida/Script-GGNET/raw/refs/heads/main/call-trace-helper.user.js))
+
+- [📥 Instalar Call Trace Helper](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/call-trace-helper.user.js)
+- [📥 Instalar Huawei Clear Offline](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/Huawei/clear-huawei.user.js)
 
 ---
 
@@ -48,29 +56,11 @@ Os scripts são atualizados automaticamente pelo Tampermonkey sempre que uma nov
 
 ---
 
-## 📁 Estrutura do repositório
-
-Script-GGNET/
-├── README.md
-├── call-trace-helper.user.js
-└── (outros scripts futuramente)
-
-
----
-
 ## ⚠️ Aviso
 Este repositório é destinado a **uso técnico interno**. Utilize os scripts apenas em sistemas e ambientes onde você possui autorização.
 
 ---
 
 ## 👨‍💻 Autor
-**Matheus Allmeida**  
+**Matheus de Almeida**  
 Scripts desenvolvidos para apoio técnico em ambientes de telecomunicações, VOIP e SIP.
-
----
-
-## 📌 Roadmap
-- Organização por pastas (voz / sip / noc)
-- Padronização visual dos modais
-- Template base para novos scripts
-- Controle de versões por release
