@@ -27,10 +27,21 @@ Script Tampermonkey para extração automática de dados de chamadas SIP na pág
 - Data e hora no formato brasileiro
 
 ### 🔹 Huawei Clear Offline
-Script Tampermonkeu para limpeza automatica de dispositivos desconectados no Huawei
 
-**Funções:**
-- Limpeza automatica dispositivos desconectado
+Script Tampermonkey para remover automaticamente dispositivos off-line em roteadores Huawei.
+
+Funções:
+
+Limpa todos os dispositivos desconectados
+
+Funciona em interface dinâmica/iframe
+
+Ativado ao pressionar DELETE
+
+Para automaticamente ao finalizar a limpeza
+
+Uso:
+Abra a página Dispositivos off-line e pressione DELETE.
 
 ### 🔹 MAC VENDORS
 Script Tampermonkeu para capturar MAC de aparelhos e substituir pelo nome do aparelho
