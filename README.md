@@ -30,18 +30,14 @@ Script Tampermonkey para extração automática de dados de chamadas SIP na pág
 
 Script Tampermonkey para remover automaticamente dispositivos off-line em roteadores Huawei.
 
-Funções:
+**Funções:**
+- Limpa todos os dispositivos desconectados
+- Funciona em interface dinâmica/iframe
+- Ativado ao pressionar DELETE
+- Para automaticamente ao finalizar a limpeza
 
-Limpa todos os dispositivos desconectados
-
-Funciona em interface dinâmica/iframe
-
-Ativado ao pressionar DELETE
-
-Para automaticamente ao finalizar a limpeza
-
-Uso:
-Abra a página Dispositivos off-line e pressione DELETE.
+**Uso:**
+- Abra a página Dispositivos off-line e pressione DELETE.
 
 ### 🔹 MAC VENDORS
 Script Tampermonkeu para capturar MAC de aparelhos e substituir pelo nome do aparelho
