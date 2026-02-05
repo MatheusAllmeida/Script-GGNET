@@ -26,7 +26,7 @@ Script Tampermonkey para extração automática de dados de chamadas SIP na pág
 - Código de resposta SIP
 - Data e hora no formato brasileiro
 
-### 🔹 Huawei Clear Offline
+###🔹 Huawei Clear Offline
 
 Script Tampermonkey para remover automaticamente dispositivos off-line em roteadores Huawei.
 
