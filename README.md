@@ -46,6 +46,8 @@ Script Tampermonkeu para capturar MAC de aparelhos e substituir pelo nome do apa
 
 - [📥 Instalar Call Trace Helper](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/SBC/call-trace-helper.user.js)
 - [📥 Instalar Huawei Clear Offline](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/Huawei/clear-huawei.user.js)
+- [📥 Instalar Huawei VOIP WAN PPPoE Configuration](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/Huawei/WANPPPoE%E2%80%93VOIP-Configuration.user.js)
+- [📥 Instalar Huawei VOIP BASIC Configuration](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/Huawei/VoIPBasic-Configuration.user.js)
 - [📥 Instalar MAC Vendors](https://github.com/MatheusAllmeida/Script-GGNET/raw/refs/heads/main/Mac/MACVendorResolver.user.js)
 - 
 ---
