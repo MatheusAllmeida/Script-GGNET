@@ -39,6 +39,31 @@ Script Tampermonkey para remover automaticamente dispositivos off-line em rotead
 **Uso:**
 - Abra a página Dispositivos off-line e pressione DELETE.
 
+###🔹 Huawei WAN PPPoE – VOIP Auto Config
+
+Script Tampermonkey para configuração automática de WAN PPPoE VOIP na aba WAN Configuration de ONTs Huawei.
+
+**Funções:**
+- Seleciona automaticamente PPPoE
+- Define serviço como VOIP
+- Captura VLAN automaticamente da tabela WAN
+- Configura MTU (1492)
+- Preenche usuário e senha PPPoE
+- Modal flutuante, móvel e com fundo transparente
+
+### 🔹 Huawei VoIP Basic – SIP Auto Config
+
+Script Tampermonkey para configuração rápida de SIP e usuário na aba VoIP Basic de ONTs Huawei.
+
+**Funções:**
+- Define servidor SIP automaticamente
+- Configura portas SIP (5060)
+- Ajusta período de registro
+- Preenche número, autenticação e senha SIP
+- Define região como Brasil
+- Vincula automaticamente WAN e RTP ao VOIP
+- Modal flutuante, móvel e com fundo transparente
+
 ### 🔹 MAC VENDORS
 Script Tampermonkeu para capturar MAC de aparelhos e substituir pelo nome do aparelho
 
