@@ -67,6 +67,9 @@ Script Tampermonkey para configuração rápida de SIP e usuário na aba VoIP Ba
 ### 🔹 MAC VENDORS
 Script Tampermonkeu para capturar MAC de aparelhos e substituir pelo nome do aparelho
 
+### 🔹 Protocolo SIP
+Script Tampermonkey para capturar dados em atendimentos Copiar para area de transferencia para facilitar documentação
+
 👉 **Instalação:**  
 
 - [📥 Instalar Call Trace Helper](https://raw.githubusercontent.com/MatheusAllmeida/Script-GGNET/main/SBC/call-trace-helper.user.js)
