@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Verificador de Ponto - Central do Funcionário
+// @name         Verificador de Ponto + BSaldo - Central do Funcionário
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Analisa inconsistências no cartão de ponto (marcações ímpares)
+// @version      2.0
+// @description  Analisa inconsistências no cartão de ponto e extrai BSaldo do dia anterior
 // @author       Almeida
 // @match        https://centraldofuncionario.com.br/*/cartao-ponto*
 // @grant        none
@@ -13,6 +13,10 @@
   'use strict';
 
   const TIME_REGEX = /^\d{2}:\d{2}$/;
+
+  // ─────────────────────────────────────────
+  // VERIFICADOR DE PONTO
+  // ─────────────────────────────────────────
 
   function isVisible(el) {
     return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length) &&
@@ -52,7 +56,7 @@
     return `${d}/${m}/${y}`;
   }
 
-  function showResults(errors) {
+  function showResults(errors, bSaldo) {
     const existingPanel = document.getElementById('ponto-checker-panel');
     if (existingPanel) existingPanel.remove();
 
@@ -77,6 +81,7 @@
       border: 1px solid #313244;
     `;
 
+    // Header
     const header = document.createElement('div');
     header.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;';
 
@@ -93,6 +98,29 @@
     header.appendChild(closeBtn);
     panel.appendChild(header);
 
+    // ── BSaldo Card ──
+    const bSaldoCard = document.createElement('div');
+    bSaldoCard.id = 'bsaldo-card';
+
+    if (bSaldo === 'aguardando') {
+      bSaldoCard.style.cssText = 'background:#313244; border-left:3px solid #89b4fa; border-radius:8px; padding:10px 14px; margin-bottom:14px; color:#89b4fa; font-weight:600;';
+      bSaldoCard.textContent = '⏳ Aguardando BSaldo... (abra o Cartão Completo)';
+    } else if (bSaldo === null) {
+      bSaldoCard.style.cssText = 'background:#313244; border-left:3px solid #f9e2af; border-radius:8px; padding:10px 14px; margin-bottom:14px; color:#f9e2af; font-weight:600;';
+      bSaldoCard.textContent = '⚠️ BSaldo do dia anterior não encontrado';
+    } else {
+      const isNegative = bSaldo.startsWith('-');
+      const color = isNegative ? '#f38ba8' : '#a6e3a1';
+      bSaldoCard.style.cssText = `background:#313244; border-left:3px solid ${color}; border-radius:8px; padding:10px 14px; margin-bottom:14px;`;
+      bSaldoCard.innerHTML = `
+        <div style="font-size:11px; color:#a6adc8; margin-bottom:4px;">BANCO DE HORAS - DIA ANTERIOR</div>
+        <div style="font-weight:700; font-size:20px; color:${color};">${bSaldo}</div>
+      `;
+    }
+
+    panel.appendChild(bSaldoCard);
+
+    // ── Inconsistências ──
     if (errors.length === 0) {
       const ok = document.createElement('div');
       ok.style.cssText = 'background:#a6e3a1; color:#1e1e2e; border-radius:8px; padding:12px 16px; font-weight:600; text-align:center;';
@@ -118,7 +146,6 @@
           ? `Horários (${err.times.length}): ${err.times.join(' · ')}`
           : 'Nenhum horário encontrado';
 
-        // Botão scroll até o dia
         const scrollBtn = document.createElement('button');
         scrollBtn.textContent = '👁 Ver no calendário';
         scrollBtn.style.cssText = `
@@ -152,6 +179,102 @@
     document.body.appendChild(panel);
   }
 
+  // ─────────────────────────────────────────
+  // BSALDO - busca após abrir o cartão completo
+  // ─────────────────────────────────────────
+
+  function getDataOntem() {
+    const hoje = new Date();
+    const ontem = new Date(hoje);
+    ontem.setDate(hoje.getDate() - 1);
+    const dd = String(ontem.getDate()).padStart(2, '0');
+    const mm = String(ontem.getMonth() + 1).padStart(2, '0');
+    const yyyy = ontem.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  function buscarBSaldo(callback, tentativas = 20, intervalo = 300) {
+    const dataOntem = getDataOntem();
+    let tentativa = 0;
+
+    const timer = setInterval(() => {
+      tentativa++;
+
+      let linhaEncontrada = null;
+      let i = 1;
+      while (true) {
+        const celulaData = document.getElementById(`cartao-ponto-completo-tabela-${i}-2`);
+        if (!celulaData) break;
+        if (celulaData.textContent.trim().startsWith(dataOntem)) {
+          linhaEncontrada = i;
+          break;
+        }
+        i++;
+      }
+
+      if (linhaEncontrada !== null) {
+        const celula = document.getElementById(`cartao-ponto-completo-tabela-${linhaEncontrada}-33`);
+        if (celula && celula.textContent.trim() !== '') {
+          clearInterval(timer);
+          callback(celula.textContent.trim());
+          return;
+        }
+      }
+
+      if (tentativa >= tentativas) {
+        clearInterval(timer);
+        callback(null);
+      }
+    }, intervalo);
+  }
+
+  // ─────────────────────────────────────────
+  // LISTENER no botão "Completo"
+  // ─────────────────────────────────────────
+
+  function observarBotaoCompleto() {
+    // Usa delegação de evento no body para capturar mesmo após React re-renderizar
+    document.body.addEventListener('click', (e) => {
+      const botao = e.target.closest('[data-testid="cartao-ponto-completo"]');
+      if (!botao) return;
+
+      // Só age se estiver abrindo (cor azul = estava fechado)
+      const bg = botao.style.backgroundColor;
+      const estaAbrindo = bg === 'rgb(89, 203, 232)' || bg === '';
+
+      if (!estaAbrindo) return;
+
+      // Atualiza o card de BSaldo para "aguardando" se painel já existir
+      const bsaldoCard = document.getElementById('bsaldo-card');
+      if (bsaldoCard) {
+        bsaldoCard.style.cssText = 'background:#313244; border-left:3px solid #89b4fa; border-radius:8px; padding:10px 14px; margin-bottom:14px; color:#89b4fa; font-weight:600;';
+        bsaldoCard.textContent = '⏳ Carregando BSaldo...';
+      }
+
+      buscarBSaldo((bSaldo) => {
+        const card = document.getElementById('bsaldo-card');
+        if (!card) return;
+
+        if (bSaldo === null) {
+          card.style.cssText = 'background:#313244; border-left:3px solid #f9e2af; border-radius:8px; padding:10px 14px; margin-bottom:14px; color:#f9e2af; font-weight:600;';
+          card.textContent = '⚠️ BSaldo do dia anterior não encontrado';
+        } else {
+          const isNegative = bSaldo.startsWith('-');
+          const color = isNegative ? '#f38ba8' : '#a6e3a1';
+          card.style.cssText = `background:#313244; border-left:3px solid ${color}; border-radius:8px; padding:10px 14px; margin-bottom:14px;`;
+          card.innerHTML = `
+            <div style="font-size:11px; color:#a6adc8; margin-bottom:4px;">BANCO DE HORAS - DIA ANTERIOR</div>
+            <div style="font-weight:700; font-size:20px; color:${color};">${bSaldo}</div>
+          `;
+        }
+      });
+    }, true); // capture=true para pegar antes do React
+  }
+
+  // ─────────────────────────────────────────
+  // INICIALIZAÇÃO
+  // ─────────────────────────────────────────
+
   function clearHighlights() {
     document.querySelectorAll('[id^="dia-resumido-"]').forEach(el => {
       el.style.outline = '';
@@ -162,10 +285,10 @@
   function run() {
     clearHighlights();
     const errors = analyzePonto();
-    showResults(errors);
+    showResults(errors, 'aguardando');
+    observarBotaoCompleto();
   }
 
-  // Aguarda o React renderizar o conteúdo
   function waitForContent(callback, maxTries = 20) {
     let tries = 0;
     const interval = setInterval(() => {
@@ -178,11 +301,17 @@
     }, 500);
   }
 
-  // Monitora mudanças dinâmicas (troca de mês, etc.)
   let debounceTimer;
   const observer = new MutationObserver(() => {
     clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(run, 1200);
+    debounceTimer = setTimeout(() => {
+      clearHighlights();
+      const errors = analyzePonto();
+      // Mantém o BSaldo atual se já foi carregado
+      const bsaldoCard = document.getElementById('bsaldo-card');
+      const bsaldoAtual = bsaldoCard ? bsaldoCard.querySelector('div:last-child')?.textContent : null;
+      showResults(errors, bsaldoAtual || 'aguardando');
+    }, 1200);
   });
 
   waitForContent(() => {
