@@ -85,11 +85,27 @@ Script Tampermonkey para capturar dados em atendimentos Copiar para area de tran
 
 ---
 
-## 🚀 Instalação (padrão)
+### 🚀 Instalação (padrão)
+Instale a extensão Tampermonkey no navegador
+Clique no link de instalação do script desejado
+Confirme a instalação
+⚠️ Configuração necessária no Google Chrome (IMPORTANTE)
 
-1. Instale a extensão **Tampermonkey** no navegador
-2. Clique no link de instalação do script desejado
-3. Confirme a instalação
+Após instalar o Tampermonkey, é necessário liberar permissões para que os scripts funcionem no navegador:
+
+Abra no Chrome:
+chrome://extensions/
+Localize Tampermonkey e clique em Detalhes
+Em Acesso ao site, selecione:
+
+✅ Em todos os sites
+
+Se estiver configurado como “Quando clicar”, o script não executará automaticamente.
+
+Após alterar, recarregue a página do sistema usando:
+CTRL + SHIFT + R
+Clique no ícone do Tampermonkey e verifique se aparece:
+✔ 1 script em execução
 
 ---
 
